@@ -3,12 +3,16 @@ import java.util.*;
 import java.awt.*;
 
 // TODO: extend Animal
-public class Cat {
+public abstract class Cat extends Animal{
 
     // TODO: add instance variables
+    protected int lives;
 
     // TODO: add constructor
-
+    public Cat(String name, int x, int y) {
+        super(name, x, y);
+        this.lives=9;
+    }
     // TODO: override the tick method
 
     @Override

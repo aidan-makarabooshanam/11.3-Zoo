@@ -2,10 +2,14 @@
 import java.awt.Graphics;
 
 // TODO: add the abstract keyword to the class declaration
-public class Entity {
+public abstract class Entity {
     // optional code to assign a sequencial entity ID
     private static int lastID = 0;
     protected int id;
+    protected boolean alive=true;
+    protected int x;
+    protected int y;
+    protected String name;
 
     // TODO: add the Entity instance variables
 
@@ -13,12 +17,20 @@ public class Entity {
         // optional code to assign a sequencial entity ID
         this.id = lastID;
         lastID = lastID + 1;
+        this.name=name;
+        this.x=x;
+        this.y=y;
+        this.alive=alive;
 
         // TODO: complete the Entity constructor
     }
 
     // ABSTRACT METHODS
     // tick and draw are called by the Zoo class
+    
+    public abstract void tick(Zoo z);
+
+    public abstract void draw(Graphics g);
 
     // TODO: add abstract method tick(Zoo z)
     // TODO: add abstract method draw(Graphics g)
@@ -41,5 +53,4 @@ public class Entity {
         // implement the getY method
         return 0;
     }
-
 }
