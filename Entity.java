@@ -10,6 +10,7 @@ public abstract class Entity {
     protected int x;
     protected int y;
     protected String name;
+    protected int age;
 
     // TODO: add the Entity instance variables
 
@@ -21,6 +22,7 @@ public abstract class Entity {
         this.x=x;
         this.y=y;
         this.alive=alive;
+        this.age=age;
 
         // TODO: complete the Entity constructor
     }

@@ -1,7 +1,7 @@
 
 import javax.swing.*;
 import java.awt.*;
-
+import java.util.Random;
 import java.util.*;
 
 // in general it would be better practice to separate the data and display functionalities of Zoo
@@ -107,6 +107,10 @@ public class Zoo extends JPanel {
         else {
             return (thresh - val) % thresh;
         }
+    }
+
+    public static boolean percentChance(double percent) {
+        return rand.nextDouble() < percent*0.01;
     }
 
     public static void main(String[] args) {

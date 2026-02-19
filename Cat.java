@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.awt.*;
 
@@ -16,6 +15,26 @@ public abstract class Cat extends Animal{
     // TODO: override the tick method
 
     @Override
+    public void tick(Zoo z) {
+        age++;
+        if (age>500){
+            if (Zoo.percentChance(1.0)){
+                lives--;
+            }
+            if (Zoo.percentChance(10.0) && isSick==true){
+                lives--;
+            }
+        }
+        if (Zoo.percentChance(0.1) && isSick==true){
+            lives--;
+        }
+        if (lives<=0){
+            alive=false;
+            System.out.println("Cat "+name+" has died.");
+        }
+    }
+
+    @Override
     public void draw(Graphics g) {
         // two optional examples of a way to draw a cat follow!
 
@@ -31,6 +50,12 @@ public abstract class Cat extends Animal{
     }
 
     // TODO: override the eat method
+    @Override
+    public void eat(Food food) {
+        if (hunger>25){
+
+        }
+    }
     // TODO: override the move method
 
 
