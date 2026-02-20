@@ -52,11 +52,24 @@ public abstract class Cat extends Animal{
     // TODO: override the eat method
     @Override
     public void eat(Food food) {
-        if (hunger>25){
-
+        if (hunger > 25 && food.isAnimalProduct) {
+            if (Zoo.percentChance(99.0)) {
+                food.beEaten(this);
+                System.out.println("Cat " + name + " ate " + food.name + ", gaining " + food.nutritionValue + " nutrition!");
+            }
         }
     }
     // TODO: override the move method
+    @Override
+    public void move(Zoo zoo) {
+        int randomNumX = (int) (Math.random() * 3)-1;     
+        int randomNumY=(int) (Math.random() * 3)-1;
+        double directionx = 0.0;
+        double directiony = 0.0;
+        if (age % 10 ==0){
+            directionx+=randomNumX;
+            directiony+=randomNumY;
+        }
 
-
+    }
 }
