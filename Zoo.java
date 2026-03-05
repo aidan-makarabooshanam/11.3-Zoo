@@ -38,6 +38,18 @@ public class Zoo extends JPanel {
         height = h;
     }
 
+    // public ArrayList<Entity> pullEntity(){
+    //     ArrayList<Entity> entities = new ArrayList<Entity>(); 
+    //     for (ArrayList<Entity> eList: grid){
+    //         for (Entity e:eList){
+    //             if (e instanceof Animal) {
+    //                 entities.add(e);
+    //             }   
+    //         }
+    //     }
+    //     return entities;
+    // }
+
 	public void paintComponent(Graphics g){
 		super.paintComponent(g); 
 		setBackground(Color.GREEN);
@@ -128,6 +140,11 @@ public class Zoo extends JPanel {
 
         int tickCount = 0;
         while(true) {
+            if (tickCount%50==0){
+                zoo.add(new Cat("Soren Benson", (int)(Math.random()*ZOO_COLS), (int)(Math.random()*ZOO_ROWS)));
+
+            }
+
             try {
                 Thread.sleep(100);
             }

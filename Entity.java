@@ -48,11 +48,11 @@ public abstract class Entity {
 
     public int getX() {
         // TODO: implement the getX method
-        return 0;
+        return x;
     }
 
     public int getY() {
         // implement the getY method
-        return 0;
+        return y;
     }
 }

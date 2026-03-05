@@ -2,7 +2,7 @@ import java.util.*;
 import java.awt.*;
 
 // TODO: extend Animal
-public abstract class Cat extends Animal{
+public class Cat extends Animal{
 
     // TODO: add instance variables
     protected int lives;
@@ -32,15 +32,16 @@ public abstract class Cat extends Animal{
             alive=false;
             System.out.println("Cat "+name+" has died.");
         }
+        this.move(z);
     }
 
     @Override
     public void draw(Graphics g) {
         // two optional examples of a way to draw a cat follow!
 
-        //g.setColor(Color.DARK_GRAY);
-        //g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 25));
-        //g.drawString("🐈", Zoo.wrap(xPos,Zoo.ZOO_COLS)*Zoo.SCALE, Zoo.wrap(yPos,Zoo.ZOO_ROWS)*Zoo.SCALE+25);
+        g.setColor(Color.DARK_GRAY);
+        g.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 25));
+        g.drawString("🐈", Zoo.wrap(x,Zoo.ZOO_COLS)*Zoo.SCALE, Zoo.wrap(y,Zoo.ZOO_ROWS)*Zoo.SCALE+25);
 
         //g.setColor(Color.DARK_GRAY);
         //g.setFont(new Font("Consolas", Font.PLAIN, 10));
@@ -62,14 +63,47 @@ public abstract class Cat extends Animal{
     // TODO: override the move method
     @Override
     public void move(Zoo zoo) {
-        int randomNumX = (int) (Math.random() * 3)-1;     
-        int randomNumY=(int) (Math.random() * 3)-1;
+        ArrayList<Entity> neighbors = neighbor(zoo);
+        int randomNumX = (int) (Math.random() * 3) - 1;
+        int randomNumY = (int) (Math.random() * 3) - 1;
         double directionx = 0.0;
         double directiony = 0.0;
-        if (age % 10 ==0){
-            directionx+=randomNumX;
-            directiony+=randomNumY;
-        }
+        boolean animalInCell = false;
+        if (age % 10 == 0) {
+            directionx += randomNumX;
+            directiony += randomNumY;
+            if (x == 0) directiony++;
+            if (y == 0) directionx++;
+            if (x == 800) directiony--;
+            if (y == 600) directionx--;
 
+            for (Entity n : neighbors){
+                if (n instanceof Food){
+                    this.x=n.getX();
+                    this.y=n.getY();
+                    this.eat((Food)n);
+                }
+            }
+
+            for (Entity e : zoo.at(x + (int) directionx, y + (int) directiony)) {
+                if (e instanceof Animal) {
+                    animalInCell = true;
+                    break;
+                }
+            }
+            if (animalInCell || !neighbors.isEmpty()) {
+                directionx -= randomNumX;
+                directiony -= randomNumY;
+            }
+
+            if (neighbors.size()>0&&Zoo.percentChance(10.0)){
+                Cat catspawn = new Cat(name+" Jr.", x, y);
+                zoo.add(catspawn);
+                System.out.println("Baby Soren Benson has been born");
+            }
+
+            x += (int) directionx;
+            y += (int) directiony;
+        }
     }
 }
