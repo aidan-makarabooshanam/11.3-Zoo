@@ -55,55 +55,57 @@ public class Cat extends Animal{
     public void eat(Food food) {
         if (hunger > 25 && food.isAnimalProduct) {
             if (Zoo.percentChance(99.0)) {
+                int before = hunger;
                 food.beEaten(this);
-                System.out.println("Cat " + name + " ate " + food.name + ", gaining " + food.nutritionValue + " nutrition!");
+                System.out.println("Cat " + name + " ate " + food.name + ", gaining " + food.nutritionValue + " nutrition! Hunger: " + before + " -> " + hunger);
             }
         }
     }
+
+    public void changeHunger(int delta) {
+        int before = hunger;
+        hunger += delta;
+        System.out.println("Cat " + name + " hunger changed: " + before + " -> " + hunger);
+    }
+
     // TODO: override the move method
     @Override
     public void move(Zoo zoo) {
-        ArrayList<Entity> neighbors = neighbor(zoo);
-        int randomNumX = (int) (Math.random() * 3) - 1;
-        int randomNumY = (int) (Math.random() * 3) - 1;
-        double directionx = 0.0;
-        double directiony = 0.0;
-        boolean animalInCell = false;
-        if (age % 10 == 0) {
-            directionx += randomNumX;
-            directiony += randomNumY;
-            if (x == 0) directiony++;
-            if (y == 0) directionx++;
-            if (x == 800) directiony--;
-            if (y == 600) directionx--;
-
-            for (Entity n : neighbors){
-                if (n instanceof Food){
-                    this.x=n.getX();
-                    this.y=n.getY();
-                    this.eat((Food)n);
+        // Only move every 10 ticks
+        if (age % 10 != 0) return;
+        // Move towards adjacent food (cheese/rats) if present
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            for (Entity e : zoo.at(nx, ny)) {
+                if (e instanceof Food && e.isAlive()) {
+                    // Move to food, eat it, then return
+                    x = nx;
+                    y = ny;
+                    eat((Food) e);
+                    return;
                 }
             }
-
-            for (Entity e : zoo.at(x + (int) directionx, y + (int) directiony)) {
-                if (e instanceof Animal) {
-                    animalInCell = true;
-                    break;
-                }
-            }
-            if (animalInCell || !neighbors.isEmpty()) {
-                directionx -= randomNumX;
-                directiony -= randomNumY;
-            }
-
-            if (neighbors.size()>0&&Zoo.percentChance(10.0)){
-                Cat catspawn = new Cat(name+" Jr.", x, y);
-                zoo.add(catspawn);
-                System.out.println("Baby Soren Benson has been born");
-            }
-
-            x += (int) directionx;
-            y += (int) directiony;
         }
+        // Otherwise, try to move randomly, but avoid other animals
+        int dir = Zoo.rand.nextInt(4);
+        int nx = x + dx[dir];
+        int ny = y + dy[dir];
+        boolean animalInCell = false;
+        for (Entity e : zoo.at(nx, ny)) {
+            if (e instanceof Animal) {
+                animalInCell = true;
+                break;
+            }
+        }
+        if (animalInCell) {
+            // Move in the opposite direction
+            nx = x - dx[dir];
+            ny = y - dy[dir];
+        }
+        x = nx;
+        y = ny;
     }
 }

@@ -142,7 +142,18 @@ public class Zoo extends JPanel {
         while(true) {
             if (tickCount%50==0){
                 zoo.add(new Cat("Soren Benson", (int)(Math.random()*ZOO_COLS), (int)(Math.random()*ZOO_ROWS)));
-
+            }
+            if (tickCount%50==0){
+                zoo.add(new Dog("Nolan Weiss", (int)(Math.random()*ZOO_COLS), (int)(Math.random()*ZOO_ROWS)));
+            }
+            if (tickCount%50==0){
+                zoo.add(new Rat("Ratatouille", (int)(Math.random()*ZOO_COLS), (int)(Math.random()*ZOO_ROWS)));
+            }
+            if (tickCount%100==0){
+                zoo.add(new Cheese("Cheddar", (int)(Math.random()*ZOO_COLS), (int)(Math.random()*ZOO_ROWS), false, false, tickCount));
+            }
+            if (tickCount%100==0){
+                zoo.add(new Ham("Ham", (int)(Math.random()*ZOO_COLS), (int)(Math.random()*ZOO_ROWS), false, false, tickCount));
             }
 
             try {
